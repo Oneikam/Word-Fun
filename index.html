@@ -107,7 +107,9 @@ const WORDS=[["hug","🤗"],["hill","⛰️"],["ham","🍖"],["jug","🏺"],["ji
 const COLORS=["#ff6fa5","#3aa0ff","#3ec97a","#ff9f2e","#8a5cf6"];
 let idx=0,pos=0,stars=0,done=false;
 const $=id=>document.getElementById(id);
-const cur=()=>WORDS[idx][0];
+let GAME=[...WORDS];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const cur=()=>GAME[idx][0];
 
 function say(t){
   try{
@@ -124,7 +126,7 @@ function go(p){
   window.scrollTo(0,0);
 }
 /* Word bank */
-WORDS.forEach(([w,e])=>{
+shuffle(WORDS).forEach(([w,e])=>{
   const b=document.createElement('button');
   b.className='card';
   b.innerHTML='<div class="em">'+e+'</div><div class="w">'+w+'</div>';
@@ -132,10 +134,10 @@ WORDS.forEach(([w,e])=>{
   $('grid').appendChild(b);
 });
 /* Game */
-function start(){idx=0;stars=0;load()}
+function start(){GAME=shuffle(WORDS);idx=0;stars=0;load()}
 function load(){
   const w=cur();pos=0;done=false;
-  $('pic').textContent=WORDS[idx][1];
+  $('pic').textContent=GAME[idx][1];
   $('msg').textContent='';
   $('next').style.display='none';
   $('stars').textContent='⭐'.repeat(stars)||'Collect stars! ⭐';
