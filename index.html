@@ -1,13 +1,189 @@
-
+html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Word-Fun</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OneiTech Word Fun</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff6d6;--card:#ffffff;--ink:#3a2a6b;--pink:#ff6fa5;--blue:#3aa0ff;--green:#3ec97a;--orange:#ff9f2e;--purple:#8a5cf6;--soft:#ffe9a8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241a4a;--card:#352869;--ink:#fff4cf;--soft:#4a3a8a}}
+:root[data-theme="dark"]{--bg:#241a4a;--card:#352869;--ink:#fff4cf;--soft:#4a3a8a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Fredoka','Comic Sans MS','Trebuchet MS',sans-serif;min-height:100vh;text-align:center}
+nav{display:flex;gap:8px;justify-content:center;padding:12px 8px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+nav button{font:inherit;font-size:1.1rem;border:0;border-radius:999px;padding:12px 20px;background:var(--soft);color:var(--ink);cursor:pointer;min-height:48px}
+nav button.on{background:var(--purple);color:#fff}
+.brand{font-weight:700;color:var(--purple);letter-spacing:1px}
+.brand b{color:var(--pink)}
+main{max-width:760px;margin:0 auto;padding:8px 16px 40px}
+.page{display:none}.page.on{display:block;animation:pop .35s}
+@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+h1{font-size:2.3rem;margin:8px 0}
+.big{font-size:5rem;line-height:1;margin:8px 0}
+.btn{font:inherit;font-size:1.5rem;font-weight:700;color:#fff;background:var(--green);border:0;border-radius:24px;padding:16px 32px;margin:8px;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.2);min-height:60px}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.btn.blue{background:var(--blue)}.btn.orange{background:var(--orange)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin-top:12px}
+.card{background:var(--card);border-radius:24px;padding:14px 8px;border:4px solid var(--soft);cursor:pointer;font:inherit;color:var(--ink)}
+.card .em{font-size:3.2rem}
+.card .w{font-size:2rem;font-weight:700;letter-spacing:3px}
+.card:active{transform:scale(.94)}
+.bounce{animation:bn .5s}
+@keyframes bn{30%{transform:scale(1.12) rotate(-3deg)}60%{transform:scale(.96) rotate(3deg)}}
+.stage{background:var(--card);border-radius:28px;padding:16px;border:4px solid var(--soft)}
+.slots{display:flex;gap:10px;justify-content:center;margin:14px 0;flex-wrap:wrap}
+.slot{width:64px;height:76px;border-radius:16px;border:4px dashed var(--purple);display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:700;color:var(--pink)}
+.slot.f{border-style:solid;background:var(--soft);animation:pop .3s}
+.tiles{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0}
+.tile{font:inherit;font-size:2.6rem;font-weight:700;width:72px;height:80px;border:0;border-radius:18px;color:#fff;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.2)}
+.tile:disabled{opacity:.2;box-shadow:none}
+.shake{animation:sh .4s}
+@keyframes sh{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+.msg{min-height:2.4rem;font-size:1.6rem;font-weight:700;color:var(--green)}
+.stars{font-size:1.8rem;margin:4px 0}
+.conf{position:fixed;top:-40px;font-size:2rem;pointer-events:none;animation:fall 2s linear forwards;z-index:9}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+footer{padding:16px;font-size:.95rem;opacity:.8}
+</style>
 </head>
 <body>
-    <h1>Welcome to Word-Fun!</h1>
-    <p>Your website is now online.</p>
+<nav>
+  <button id="n-home" class="on" onclick="go('home')">🏠 Home</button>
+  <button id="n-words" onclick="go('words')">📚 Words</button>
+  <button id="n-play" onclick="go('play')">🎮 Play</button>
+</nav>
+<main>
+  <!-- PAGE 1: HOME -->
+  <section id="home" class="page on">
+    <div class="brand">Onei<b>Tech</b> presents</div>
+    <div class="big">🦄🌈</div>
+    <h1>Words Fun!</h1>
+    <p style="font-size:1.4rem">Let’s learn our spelling words this week!</p>
+    <button class="btn blue" onclick="go('words')">📚 See Words</button>
+    <button class="btn" onclick="go('play')">🎮 Play!</button>
+  </section>
+
+  <!-- PAGE 2: WORD BANK -->
+  <section id="words" class="page">
+    <h1>My Words</h1>
+    <p>Tap a picture to hear the word! 👂</p>
+    <div class="grid" id="grid"></div>
+    <button class="btn" onclick="go('play')">🎮 Let’s Play!</button>
+  </section>
+
+  <!-- PAGE 3: GAME -->
+  <section id="play" class="page">
+    <h1>Spell It!</h1>
+    <div class="stars" id="stars"></div>
+    <div class="stage">
+      <div id="pic" class="big"></div>
+      <button class="btn orange" onclick="say(cur())">🔊 Hear it</button>
+      <div class="slots" id="slots"></div>
+      <div class="msg" id="msg"></div>
+      <div class="tiles" id="tiles"></div>
+      <button class="btn blue" id="next" style="display:none" onclick="nextWord()">Next ➡️</button>
+    </div>
+  </section>
+</main>
+<footer class="brand">Made with ❤️ by Onei<b>Tech</b></footer>
+
+<script>
+// ✏️ CHANGE THIS EACH WEEK: ["word","emoji"]
+const WORDS=[["hug","🤗"],["hill","⛰️"],["ham","🍖"],["jug","🏺"],["jig","💃"],["jam","🍓"],["jet","✈️"],["fly","🪰"],["plane","🛩️"],["jar","🫙"]];
+const COLORS=["#ff6fa5","#3aa0ff","#3ec97a","#ff9f2e","#8a5cf6"];
+let idx=0,pos=0,stars=0,done=false;
+const $=id=>document.getElementById(id);
+const cur=()=>WORDS[idx][0];
+
+function say(t){
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(t);
+    u.rate=.7;u.pitch=1.2;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function go(p){
+  document.querySelectorAll('.page').forEach(s=>s.classList.toggle('on',s.id===p));
+  ['home','words','play'].forEach(n=>$('n-'+n).classList.toggle('on',n===p));
+  if(p==='play'&&!$('slots').children.length)start();
+  window.scrollTo(0,0);
+}
+/* Word bank */
+WORDS.forEach(([w,e])=>{
+  const b=document.createElement('button');
+  b.className='card';
+  b.innerHTML='<div class="em">'+e+'</div><div class="w">'+w+'</div>';
+  b.onclick=()=>{say(w);b.classList.remove('bounce');void b.offsetWidth;b.classList.add('bounce')};
+  $('grid').appendChild(b);
+});
+/* Game */
+function start(){idx=0;stars=0;load()}
+function load(){
+  const w=cur();pos=0;done=false;
+  $('pic').textContent=WORDS[idx][1];
+  $('msg').textContent='';
+  $('next').style.display='none';
+  $('stars').textContent='⭐'.repeat(stars)||'Collect stars! ⭐';
+  $('slots').innerHTML=w.split('').map(()=>'<div class="slot"></div>').join('');
+  const abc='abcdefghijklmnopqrstuvwxyz'.split('').filter(c=>!w.includes(c));
+  const extra=abc.sort(()=>Math.random()-.5).slice(0,2);
+  const letters=w.split('').concat(extra).sort(()=>Math.random()-.5);
+  $('tiles').innerHTML='';
+  letters.forEach((c,i)=>{
+    const t=document.createElement('button');
+    t.className='tile';t.textContent=c;
+    t.style.background=COLORS[i%COLORS.length];
+    t.onclick=()=>pick(t,c);
+    $('tiles').appendChild(t);
+  });
+  setTimeout(()=>say(w),300);
+}
+function pick(t,c){
+  if(done)return;
+  const w=cur();
+  if(c===w[pos]){
+    const s=$('slots').children[pos];
+    s.textContent=c;s.classList.add('f');
+    t.disabled=true;pos++;
+    if(pos===w.length)win();
+  }else{
+    t.classList.remove('shake');void t.offsetWidth;t.classList.add('shake');
+    $('msg').style.color='var(--orange)';
+    $('msg').textContent='Try again! 💪';
+    say('try again');
+  }
+}
+function win(){
+  done=true;stars++;
+  $('stars').textContent='⭐'.repeat(stars);
+  $('msg').style.color='var(--green)';
+  const last=idx===WORDS.length-1;
+  $('msg').textContent=last?'🎉 You did it ALL! 🎉':'Great job! 🎉';
+  say(cur()+'. Great job!');
+  confetti();
+  $('next').textContent=last?'🔁 Play again':'Next ➡️';
+  $('next').style.display='inline-block';
+}
+function nextWord(){
+  if(idx===WORDS.length-1){start();return}
+  idx++;load();
+}
+function confetti(){
+  const e=['🎉','⭐','🌈','🦄','💖','🎈'];
+  for(let i=0;i<24;i++){
+    const d=document.createElement('div');
+    d.className='conf';d.textContent=e[i%e.length];
+    d.style.left=Math.random()*95+'vw';
+    d.style.animationDelay=Math.random()*.6+'s';
+    document.body.appendChild(d);
+    setTimeout(()=>d.remove(),3000);
+  }
+}
+</script>
 </body>
 </html>
